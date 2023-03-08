@@ -15,39 +15,41 @@
 </head>
 <body>
 
-<?php require('menu.php');?>
+  <?php require('menu.php');?>
 
-<div class="container-fluid mt-3">
-  <h3>Użytkownicy</h3>
-
-  <form><button submit=
-
-  <table class="table">
-    <thead class="table-dark">
-      <tr>
-        <th>Nr prac.</th>
-        <th>Nazwisko</th>
-        <th>Imię</th>
-        <th>Pesel</th>
-        <th>Login</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-
-    <?php
-    while ($row = mysqli_fetch_array($result)) {
-      echo "<tr><td>{$row['nr_pracownika']}</td>
-                <td>{$row['nazwisko']}</td>
-                <td>{$row['imie']}</td>
-                <td>{$row['pesel']}</td>
-                <td>{$row['login']}</td><td></td></tr>\n";
-    }?>
-    </tbody>
-  </table>
-
-
-</div>
+  <div class="container-fluid mt-3">
+    <h3>Użytkownicy</h3>
+    <div class="row">
+      <form action="users.php" method="GET">
+        <input type="hidden" name="typ" value="n">
+        <input class="" type="submit" value="Nowy użytkownik">
+      </form>
+    </div>
+    <div class="row">
+      <table class="table">
+        <thead class="table-dark">
+          <tr>
+            <th>Nr prac.</th>
+            <th>Nazwisko</th>
+            <th>Imię</th>
+            <th>Pesel</th>
+            <th>Login</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php
+        while ($row = mysqli_fetch_array($result)) {
+          echo "<tr><td>{$row['nr_pracownika']}</td>
+                    <td>{$row['nazwisko']}</td>
+                    <td>{$row['imie']}</td>
+                    <td>{$row['pesel']}</td>
+                    <td>{$row['login']}</td><td></td></tr>\n";
+        }?>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
 </body>
 </html>
