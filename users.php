@@ -47,10 +47,43 @@
         <?php
         break;
       case "pn":
+        //pobieranie danych z tabeli REQUEST
+        $imie = $_REQUEST['imie'];
+        $nazwisko = $_REQUEST['nazwisko'];
+        $pesel = $_REQUEST['pesel'];
+        $login = $_REQUEST['login'];
+        $haslo = $_REQUEST['haslo'];
+        
+        //sprawdzanie czy login jest zajęty
+        $sql = "SELECT * FROM pracownicy WHERE login = '$login'";
+        $result = mysqli_query($connect, $sql);
+        if ($row = mysqli_fetch_array($result)) {
+            echo "<div class='container-fluid mt-3'>\n";
+            echo "  <h3>NOWY UŻYTKOWNIK</h3>\n";
+            echo "  <p>Login: <b>$login</b> istnieje już w systemie</p>\n";
+            echo "  <button onclick='window.history.back();'>Powrót</button>\n";
+            echo "</div>\n";
+        } else {
+            $sql = "INSERT INTO pracownicy (imie, nazwisko, pesel, login, haslo) VALUES ('$imie','$nazwisko','$pesel','$login','$haslo')";
+            if(mysqli_query($connect, $sql)) {
+              echo "<div class='container-fluid mt-3'>\n";
+              echo "  <h3>NOWY UŻYTKOWNIK</h3>\n";
+              echo "  <p>Użytkownik: <b>$imie $nazwisko</b> został poprawnie dodany</p>\n";
+              echo "  <button onclick=\"location.href='users.php'\">Powrót</button>\n";
+              echo "</div>\n";
+            } else {
+              echo "<div class='container-fluid mt-3'>\n";
+              echo "  <h3>NOWY UŻYTKOWNIK</h3>\n";
+              echo "  <p>Błąd. Użytkownik nie został poprawnie dodany</p>\n";
+              echo "  <button onclick=\"location.href='users.php'\">Powrót</button>\n";
+              echo "</div>\n";
+            }
+        }
         
         break;
       case "e":
         echo "<h3>EDYCJA UŻYTKOWNIKA</h3>";
+
         break;
       case "pe":
         break;
@@ -65,10 +98,12 @@
     <div class="container-fluid mt-3">
       <h3>Użytkownicy</h3>
       <div class="row">
+        <div class="mb-3 mt-3">
         <form action="users.php" method="GET">
           <input type="hidden" name="typ" value="n">
-          <input class="" type="submit" value="Nowy użytkownik">
+          <input class="btn btn-dark" type="submit" value="Nowy użytkownik">
         </form>
+        </div>
       </div>
       <div class="row">
         <table class="table">
@@ -93,12 +128,12 @@
             echo "    <td><form action='users.php' method='GET'>";
             echo "          <input type='hidden' name='typ' value='e'>";
             echo "          <input type='hidden' name='id' value='{$row['nr_pracownika']}'>";
-            echo "          <input type='submit' value='Edytuj'>";
+            echo "          <input class='btn btn-dark' type='submit' value='Edytuj'>";
             echo "    </form></td>\n";
             echo "    <td><form action='users.php' method='GET'>";
             echo "          <input type='hidden' name='typ' value='u'>";
             echo "          <input type='hidden' name='id' value='{$row['nr_pracownika']}'>";
-            echo "          <input type='submit' value='Usuń'>";
+            echo "          <input class='btn btn-dark' type='submit' value='Usuń'>";
             echo "    </form></td></tr>\n";        
           }?>
           </tbody>
